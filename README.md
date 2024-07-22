@@ -25,5 +25,4 @@ Link Bot : [Kuroro Ranch](https://t.me/KuroroRanchBot/ranch?startapp=ref-E6FE74E
 
 # NOTED !!!!
 
-- Jika Mining dan Feeding Erorr maka pancing dulu menggunakan auto upgrade
 - Jangan di hapus file upgrades.txt !!!
