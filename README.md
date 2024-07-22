@@ -6,6 +6,7 @@ Fitur BOT :
 
 - Auto Upgrade
 - Auto Minning dan Feeding ( bisa diatur )
+- Auto Check-IN Daily
 - Multiakun ( insyaallah )
 
 Cara Penggunaan :
