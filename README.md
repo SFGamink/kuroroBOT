@@ -5,7 +5,7 @@ Link Bot : [Kuroro Ranch](https://t.me/KuroroRanchBot/ranch?startapp=ref-E6FE74E
 Fitur BOT :
 
 - Auto Upgrade
-- Auto Minning dan Feeding
+- Auto Minning dan Feeding ( bisa diatur )
 - Multiakun ( insyaallah )
 
 Cara Penggunaan :
