@@ -14,7 +14,6 @@ Cara Penggunaan :
 - jangan lupa pip install -r requirements.txt
 - Ambil bearer dan simpan di bearer.txt
   cara ambil bearer ada di Network -> Authorization ( tanpa bearer langsung query nya ) atau di Application -> __telegram__initParams -> tgWebAppData
-- Jangan di hapus file upgrades.txt !!!
 
 Cara running :
 
@@ -23,3 +22,8 @@ WINDOWS
 - buka git bash atau cmd
 - cari foldernya
 - python kuroro.py
+
+NOTED !!!!
+
+- Jika Mining dan Feeding Erorr maka pancing dulu menggunakan auto upgrade
+- Jangan di hapus file upgrades.txt !!!
