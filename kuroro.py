@@ -44,8 +44,9 @@ def update_upgrade(bearer_token, upgrade_id):
         print(Fore.RED + f"Upgrade {upgrade_id} gagal.")
         return None
 
-def perform_action(url, action_name, payload):
+def perform_action(url, action_name, payload, bearer_token):
     try:
+        headers['Authorization'] = bearer_token
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()
         print(Fore.GREEN + f"{action_name} successful!")
@@ -69,11 +70,10 @@ def clear_screen():
 
 def checkin(bearer_token):
     url = "https://ranch-api.kuroro.com/api/DailyStreak/ClaimDailyBonus"
+    headers['Authorization'] = bearer_token  # Menetapkan nilai Authorization dari bearer_token
     
     # Mendapatkan tanggal saat ini dalam format yang diinginkan
     current_date = datetime.now().strftime("%Y-%m-%d")
-
-    headers['Authorization'] = bearer_token  # Menetapkan nilai Authorization dari bearer_token
 
     payload = {
         "date": current_date
@@ -140,10 +140,12 @@ def main():
         # Setelah selesai upgrade, tawarkan untuk melakukan Mining dan Feeding
         choice = input(Fore.BLACK + f"Apakah Anda ingin melakukan Mining dan Feeding secara otomatis ? (y/n) : ").strip().lower()
         if choice == 'y':
-            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Mining 100", {"mineAmount": 100, "feedAmount": 0})
-            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Feeding 10", {"mineAmount": 0, "feedAmount": 10})
+            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Mining 100", {"mineAmount": 100, "feedAmount": 0}, bearer_token)
+            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Feeding 10", {"mineAmount": 0, "feedAmount": 10}, bearer_token)
             print(Fore.YELLOW + "Mining dan Feeding selesai.")
-
+        elif choice == 'n':
+            print(Fore.YELLOW + "Pilihan untuk Mining dan Feeding secara otomatis tidak dilakukan.")
+        
         # Klaim bonus harian setelah semua operasi selesai
         checkin(bearer_token)
         
