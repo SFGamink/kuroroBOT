@@ -1,6 +1,6 @@
 # kuroroBOT
 
-Link Bot : Klik [tautan ini](https://t.me/KuroroRanchBot/ranch?startapp=ref-E6FE74EC)
+Link Bot : [Kuroro Ranch](https://t.me/KuroroRanchBot/ranch?startapp=ref-E6FE74EC)
 
 Fitur BOT :
 
