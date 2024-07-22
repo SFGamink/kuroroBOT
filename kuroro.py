@@ -139,13 +139,14 @@ def main():
         
         # Setelah selesai upgrade, tawarkan untuk melakukan Mining dan Feeding
         choice = input(Fore.BLACK + f"Apakah Anda ingin melakukan Mining dan Feeding secara otomatis ? (y/n) : ").strip().lower()
+        # Klaim bonus harian setelah semua operasi selesai
+        checkin(bearer_token)
         if choice == 'y':
             perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Mining 100", {"mineAmount": 100, "feedAmount": 0})
             perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Feeding 10", {"mineAmount": 0, "feedAmount": 10})
             print(Fore.YELLOW + "Mining dan Feeding selesai.")
 
-        # Klaim bonus harian setelah semua operasi selesai
-        checkin(bearer_token)
+
         
         # Menampilkan pesan akun selesai dan animasi
         print(Fore.BLUE + f"Akun {i} selesai, Lanjut ke akun selanjutnya")
