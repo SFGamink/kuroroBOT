@@ -1,0 +1,1 @@
+query_id=AAFX2wsTAwAAAFfbCxPqm6dH&user=%7B%22id%22%3A6761995095%2C%22first_name%22%3A%22Tuyul%20%24PINK%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22r031t%22%2C%22language_code%22%3A%22id%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1721623226&hash=f099f3f4d814c34a4f9301a124a89914a92daeed9a70ea029dc45f5341ffa72c
