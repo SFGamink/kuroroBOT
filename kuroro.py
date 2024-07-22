@@ -140,8 +140,8 @@ def main():
         # Setelah selesai upgrade, tawarkan untuk melakukan Mining dan Feeding
         choice = input(Fore.BLACK + f"Apakah Anda ingin melakukan Mining dan Feeding secara otomatis ? (y/n) : ").strip().lower()
         if choice == 'y':
-            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Mining 100", {"mineAmount": 100, "feedAmount": 0}, bearer_token)
-            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Feeding 10", {"mineAmount": 0, "feedAmount": 10}, bearer_token)
+            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Mining ", {"mineAmount": 100, "feedAmount": 0}, bearer_token)
+            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Feeding ", {"mineAmount": 0, "feedAmount": 10}, bearer_token)
             print(Fore.YELLOW + "Mining dan Feeding selesai.")
         elif choice == 'n':
             print(Fore.YELLOW + "Pilihan untuk Mining dan Feeding secara otomatis tidak dilakukan.")
