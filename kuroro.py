@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 import sys  # import sys module
 
+# Define headers globally
 headers = {
     'Accept': '*/*',
     'Accept-Language': 'en-US,en;q=0.9',
@@ -21,7 +22,6 @@ headers = {
 
 def print_welcome_message():
     print(r"""      
-
 ▒█▀▀▀█ █▀▀█ ░█▀█░ ▒█▄░▒█ 
 ░▀▀▀▄▄ ░░▀▄ █▄▄█▄ ▒█▒█▒█ 
 ▒█▄▄▄█ █▄▄█ ░░░█░ ▒█░░▀█
@@ -44,6 +44,21 @@ def update_upgrade(bearer_token, upgrade_id):
         print(Fore.RED + f"Upgrade {upgrade_id} gagal.")
         return None
 
+def buy_item(bearer_token, item_id):
+    url = "https://ranch-api.kuroro.com/api/CoinsShop/BuyItem"
+    headers['Authorization'] = bearer_token
+    payload = {
+        "itemId": item_id
+    }
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()
+        print(Fore.GREEN + f"Item {item_id} berhasil dibeli.")
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(Fore.RED + f"Gagal membeli item {item_id}: {e}")
+        return None
+
 def perform_action(url, action_name, payload, bearer_token):
     try:
         headers['Authorization'] = bearer_token
@@ -64,6 +79,18 @@ def query_upgrades(file_path):
     except FileNotFoundError:
         print(Fore.RED + f"File {file_path} tidak ditemukan.")
     return upgrades
+
+def query_items(file_path):
+    items = []
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                item_id = line.strip()
+                if item_id:
+                    items.append(item_id)
+    except FileNotFoundError:
+        print(Fore.RED + f"File {file_path} tidak ditemukan.")
+    return items
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -121,6 +148,13 @@ def main():
     if not upgrades:
         print(Fore.RED + f"Tidak ada upgrade yang ditemukan di {upgrades_file}.")
         return
+
+    items_file = 'items.txt'
+    items = query_items(items_file)
+
+    if not items:
+        print(Fore.RED + f"Tidak ada item yang ditemukan di {items_file}.")
+        return
     
     for i, bearer_token in enumerate(tokens, start=1):
         print(f"### Proses untuk Akun {i} ###")
@@ -137,14 +171,23 @@ def main():
                 clear_screen()  # Membersihkan layar setelah upgrade
                 print_welcome_message()
         
+        # Konfirmasi sebelum membeli semua item
+        item_confirmation = input(Fore.BLACK + f"Apakah Anda ingin membeli semua item yang terdapat pada Booster? (y/n) : ").strip().lower()
+        if item_confirmation == 'y':
+            for item_id in items:
+                result = buy_item(bearer_token, item_id)
+                if not result:
+                    continue
+                time.sleep(2)  # Delay 2 detik setiap kali membeli item
+                clear_screen()  # Membersihkan layar setelah pembelian
+                print_welcome_message()
+        
         # Setelah selesai upgrade, tawarkan untuk melakukan Mining dan Feeding
         choice = input(Fore.BLACK + f"Apakah Anda ingin melakukan Mining dan Feeding secara otomatis ? (y/n) : ").strip().lower()
         if choice == 'y':
-            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Mining ", {"mineAmount": 100, "feedAmount": 0}, bearer_token)
-            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Feeding ", {"mineAmount": 0, "feedAmount": 10}, bearer_token)
+            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Mining", {"mineAmount": 100, "feedAmount": 0}, bearer_token)
+            perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Feeding", {"mineAmount": 0, "feedAmount": 10}, bearer_token)
             print(Fore.YELLOW + "Mining dan Feeding selesai.")
-        elif choice == 'n':
-            print(Fore.YELLOW + "Pilihan untuk Mining dan Feeding secara otomatis tidak dilakukan.")
         
         # Klaim bonus harian setelah semua operasi selesai
         checkin(bearer_token)
