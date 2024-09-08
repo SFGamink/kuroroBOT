@@ -53,20 +53,17 @@ def buy_item(bearer_token, item_id):
     try:
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()
-        print(Fore.GREEN + f"Item {item_id} berhasil dibeli.")
-        return response.json()
+        result = response.json()
+        
+        # Menangani kasus di mana uang tidak cukup
+        if response.status_code == 400 and 'error' in result and 'Not enough money' in result['error']:
+            print(Fore.RED + f"Uang tidak cukup untuk membeli item {item_id}.")
+        else:
+            print(Fore.GREEN + f"Item {item_id} berhasil dibeli.")
+        return result
     except requests.exceptions.RequestException as e:
-        print(Fore.RED + f"Gagal membeli item {item_id}: {e}")
+        print(Fore.RED + f"Gagal membeli item {item_id}")
         return None
-
-def perform_action(url, action_name, payload, bearer_token):
-    try:
-        headers['Authorization'] = bearer_token
-        response = requests.post(url, headers=headers, json=payload)
-        response.raise_for_status()
-        print(Fore.GREEN + f"{action_name} successful!")
-    except requests.exceptions.RequestException as e:
-        print(Fore.RED + f"Failed to {action_name}: {e}")
 
 def query_upgrades(file_path):
     upgrades = []
@@ -160,30 +157,24 @@ def main():
         print(f"### Proses untuk Akun {i} ###")
         
         # Konfirmasi sebelum melakukan upgrade otomatis
-        confirmation = input(Fore.BLACK + f"Apakah Anda ingin melakukan upgrade otomatis ? (y/n) : ").strip().lower()
+        confirmation = input(Fore.WHITE + f"Apakah Anda ingin melakukan upgrade otomatis ? (y/n) : ").strip().lower()
         
         if confirmation == 'y':
             for upgrade_id in upgrades:
                 result = update_upgrade(bearer_token, upgrade_id)
                 if not result:
                     continue
-                time.sleep(2)  # Delay 2 detik setiap kali melakukan upgrade
-                clear_screen()  # Membersihkan layar setelah upgrade
-                print_welcome_message()
         
         # Konfirmasi sebelum membeli semua item
-        item_confirmation = input(Fore.BLACK + f"Apakah Anda ingin membeli semua item yang terdapat pada Booster? (y/n) : ").strip().lower()
+        item_confirmation = input(Fore.WHITE + f"Apakah Anda ingin membeli semua item yang terdapat pada Booster? (y/n) : ").strip().lower()
         if item_confirmation == 'y':
             for item_id in items:
                 result = buy_item(bearer_token, item_id)
                 if not result:
                     continue
-                time.sleep(2)  # Delay 2 detik setiap kali membeli item
-                clear_screen()  # Membersihkan layar setelah pembelian
-                print_welcome_message()
         
         # Setelah selesai upgrade, tawarkan untuk melakukan Mining dan Feeding
-        choice = input(Fore.BLACK + f"Apakah Anda ingin melakukan Mining dan Feeding secara otomatis ? (y/n) : ").strip().lower()
+        choice = input(Fore.WHITE + f"Apakah Anda ingin melakukan Mining dan Feeding secara otomatis ? (y/n) : ").strip().lower()
         if choice == 'y':
             perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Mining", {"mineAmount": 100, "feedAmount": 0}, bearer_token)
             perform_action("https://ranch-api.kuroro.com/api/Clicks/MiningAndFeeding", "Feeding", {"mineAmount": 0, "feedAmount": 10}, bearer_token)
