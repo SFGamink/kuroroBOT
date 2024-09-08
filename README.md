@@ -26,4 +26,4 @@ Link Bot : [Kuroro Ranch](https://t.me/KuroroRanchBot/ranch?startapp=ref-E6FE74E
 
 # NOTED !!!!
 
-- Jangan di hapus file upgrades.txt !!!
+- Jangan di hapus file upgrades.txt dan items.txt !!!
