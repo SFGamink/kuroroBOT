@@ -5,6 +5,7 @@ Link Bot : [Kuroro Ranch](https://t.me/KuroroRanchBot/ranch?startapp=ref-E6FE74E
 # Fitur BOT :
 
 - Auto Upgrade
+- Auto Buy Booster
 - Auto Minning dan Feeding ( bisa diatur )
 - Auto Daily Check-IN 
 - Multiakun ( insyaallah )
